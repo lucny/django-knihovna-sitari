@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Autor(models.Model):
@@ -67,3 +68,34 @@ class Kniha(models.Model):
 
     def __str__(self):
         return f'{self.titul} ({self.rok_vydani})'
+
+
+class Recenze(models.Model):
+    text = models.TextField(verbose_name="Text recenze",
+                            help_text="Zadej text recenze")
+    kniha = models.ForeignKey('Kniha',
+                              on_delete=models.PROTECT,
+                              verbose_name='Kniha')
+    recenzent = models.ForeignKey(User,
+                                  on_delete=models.CASCADE,
+                                  verbose_name='Recenzent')
+    HODNOCENI = (
+        (0, ''),
+        (1, '*'),
+        (2, '**'),
+        (3, '***'),
+        (4, '****'),
+        (5, '*****')
+    )
+    hodnoceni = models.PositiveSmallIntegerField(choices=HODNOCENI,
+                                                 verbose_name='Hodnocení',
+                                                 default=3)
+    cas = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['kniha', 'recenzent']
+        verbose_name = 'Recenze'
+        verbose_name_plural = 'Recenze'
+
+    def __str__(self):
+        return f'Recenze knihy {self.kniha} od {self.recenzent} ({self.cas.year})'

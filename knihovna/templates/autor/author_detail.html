@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ author }}
+{% endblock %}
+
+{% block content %}
+    <h2 class="display-4 text-center">{{ author.jmeno }} <b>{{ author.prijmeni }}</b></h2>
+    <div class="row bg-dark p-3 text-light">
+        <div class="col-lg-4">
+            <img src="{{ author.fotografie.url }}"
+                 class="img-fluid rounded"
+                 alt="{{ author.jmeno }} {{ author.prijmeni }}">
+            <p>{{ author.jmeno }} {{ author.prijmeni }}</p>
+            <p>Datum narození: <b>{{ author.narozeni }}</b></p>
+            {% if author.umrti %}
+                <p>Datum úmrtí: <b>{{ author.umrti }}</b></p>
+            {% else %}
+                <p>Žijící autor</p>
+            {% endif %}
+            <h4 class="text-info">Díla:</h4>
+            <ul>
+            {% for kniha in author.kniha_set.all %}
+                <li>{{ kniha }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-lg-8">
+            <h3 class="text-info">Životopis</h3>
+            <div>{{ author.biografie }}</div>
+        </div>
+    </div>
+{% endblock %}

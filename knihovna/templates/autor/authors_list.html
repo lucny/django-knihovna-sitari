@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Seznam autorů
+{% endblock %}
+
+{% block content %}
+    <h2>Galerie autorů</h2>
+    <div class="row bg-dark p-3">
+    {% for author in authors %}
+        <div class="col-lg-2 col-md-3">
+            <img src="{{ author.fotografie.url }}"
+                 class="img-fluid rounded"
+                 alt="{{ author.jmeno }} {{ author.prijmeni }}">
+            <p><a href="{% url 'author_detail' author.id %}">{{ author.jmeno }} {{ author.prijmeni }}</a></p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
