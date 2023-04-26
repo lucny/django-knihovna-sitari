@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2 class="display-4 text-center">Seznam knih</h2>
+  <div class="row">
+    <table class="table table-responsive-lg table-dark table-hover">
+      <thead class="bg-secondary">
+        <tr>
+            <th>Titul</th>
+            <th>Autoři</th>
+            <th>Vydavatelství</th>
+            <th>Rok vydání</th>
+            <th>Počet stran</th>
+            <th>Akce</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for book in books %}
+        <tr>
+            <td><strong><a href="{% url 'book_detail' book.id %}" class="text-info">{{ book.titul.upper }}</a></strong></td>
+            <td>
+                {% for autor in book.autori.all %}
+                <a href="{% url 'author_detail' autor.id %}" class="text-light">{{ autor.jmeno|first }}. {{ autor.prijmeni }}</a>
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ book.vydavatelstvi }}</td>
+            <td>{{ book.rok_vydani }}</td>
+            <td>{{ book.pocet_stran }}</td>
+            <td>
+            </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div><a href="{% url 'book_add' %}">Nová kniha</a></div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Formulář knihy</h2>
+    <form method="post" enctype="multipart/form-data">
+    <table>
+        {% csrf_token %}
+        {{ form.as_table }}
+    </table>
+    <p><button type="submit">Potvrdit</button></p>
+    </form>
+{% endblock %}
